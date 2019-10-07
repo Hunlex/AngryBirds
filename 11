@@ -1,0 +1,42 @@
+namespace Names
+{
+    internal static class HeatmapTask
+    {
+        public static HeatmapData GetBirthsPerDateHeatmap(NameData[] names)
+        {
+            var day = new string[30];
+            for (var i = 0; i < 30; i++)
+                day[i] = (i + 2).ToString();
+            var mounth = new string[12];
+            for (var j = 0; j < 12; j++)
+                mounth[j] = (j + 1).ToString();
+            var mounthDay = new double[30, 12];
+            foreach (var mounthname in names)
+                if (mounthname.BirthDate.Day != 1)
+                    mounthDay[mounthname.BirthDate.Day - 2, mounthname.BirthDate.Month - 1]++;
+            return new HeatmapData("Пример карты интенсивностей", mounthDay, day, mounth);
+        }
+    }
+}
+
+using System;
+using System.Linq;
+
+namespace Names
+{
+    internal static class HistogramTask
+    {
+        public static HistogramData GetBirthsPerDayHistogram(NameData[] names, string name)
+        {
+            var period = new string[31];
+            for (var d = 0; d < period.Length; d++)
+                period[d] = (d + 1).ToString();
+            var Birthday = new double[31];
+            foreach (var i in names)
+                if (i.Name == name && i.BirthDate.Day != 1)
+                    Birthday[i.BirthDate.Day - 1]++;
+            return new HistogramData(string.Format("Рождаемость людей с именем '{0}'",name), period, Birthday);
+        }
+    }
+}
+
